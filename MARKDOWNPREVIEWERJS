@@ -1,0 +1,94 @@
+class App extends React.Component {
+  render() {
+    return (
+      <div className="container">
+        <div className="row">
+          <div className="col-xs-12">
+            <h1 className="text-center"><b>Markdown Previewer Project</b></h1>
+            <hr/>
+          </div>
+        </div>
+        <TextInput />
+      </div>
+    )
+  }
+}
+
+class TextInput extends React.Component {
+  constructor() {
+    super();
+    this.state = {
+      text: `# Markdown Header
+
+## Subheader
+<br><br>
+
+### List
+- One
+- Two
+- Three
+
+<br>
+
+\`Syntax highlighting\`
+\`\`\`javascript
+let s = "JavaScript syntax highlighting";
+alert(s);
+\`\`\`
+<br>
+
+> “Thanks for the visit” CodeBlock 
+<br>
+
+![react logo](https://i.postimg.cc/Bv9y8sBZ/react-logo.png)
+<br>
+
+Author **Guzman Senosiain**, 2020 for link [freeCodeCamp](https://www.freecodecamp.org) -Front End Libraries Projects
+`
+    };
+  }
+  
+  updatePreview(event) {
+    this.setState({
+      text: event.target.value
+    });
+  }
+  
+  render() {
+    const markedText = marked(this.state.text);
+    return (
+      <div className="row">
+        <div className="col-md-6">
+          <h3 className="text-center">Editor</h3>
+          <textarea id="editor" type="text" className="editor" value={this.state.text} onChange={this.updatePreview.bind(this)}/>
+        </div>
+         <div className="col-md-6">
+          <h3 className="text-center">Preview</h3>
+          <div id="preview" type="text" className="previewArea" dangerouslySetInnerHTML={{ __html: markedText}}>
+           </div>
+        </div>
+       
+      </div>
+    )
+  }
+}
+
+/*class MarkedPreview extends React.Component {
+  constructor(props){
+    super(props)
+  }
+  getMarkupText() {
+    return { __html: marked(this.props.markdown) }
+  }
+  
+  render() {
+    return (
+      <div className="previewArea"
+        dangerouslySetInnerHTML={this.getMarkupText()}>
+      </div>
+    )
+  }
+}*/
+
+
+ReactDOM.render(<App />, document.getElementById('root'));
